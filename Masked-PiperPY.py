@@ -68,6 +68,7 @@ print("\n")
 
 #load in mediapipe modules
 mp_holistic = mp.solutions.holistic
+
 # Import drawing_utils and drawing_styles.
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
@@ -175,7 +176,20 @@ for vidf in vfiles:
                         # Zero background where we want to overlay
                         original_image[mask==0]=0 #for the original image we are going to set everything at zero for places where the mask has to go
                     elif "face" in config["draw_masks"]:
-                        pass
+                        # following https://pysource.com/2021/05/21/blur-faces-in-real-time-with-opencv-mediapipe-and-python/
+                        # 1. finding the contour of the face mask
+                        facelandmarks = []
+                        for facial_landmark in results.face_landmarks.landmark:
+                            x = int(facial_landmark.x * w)
+                            y = int(facial_landmark.y * h)
+                            facelandmarks.append([x, y])
+                        landmarks = np.array(facelandmarks, np.int32)
+                        convexhull = cv2.convexHull(landmarks)
+                        mask = np.zeros((h, w), np.uint8)
+                        cv2.fillConvexPoly(mask, convexhull, 255)
+                        face_mask = cv2.bitwise_not(mask)
+                        original_image = cv2.bitwise_and(original_image, original_image, mask=face_mask)
+
                     # must convert to BGR
                     original_image = cv2.cvtColor(original_image, cv2.COLOR_RGB2BGR)
 
