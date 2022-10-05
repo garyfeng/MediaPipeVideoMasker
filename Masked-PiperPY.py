@@ -112,7 +112,7 @@ def listpostions(newsamplemarks):
 for vidf in vfiles:
     print("We will now process video:")
     print(vidf)
-    print("This is video number" + str(vfiles.index(vidf))+ "of" + str(len(vfiles)) + "videos in total")
+    print("This is video number " + str(vfiles.index(vidf))+ " of " + str(len(vfiles)) + " videos in total")
     #capture the video, and check video settings
     videoname = vidf
     videoloc = "./Input_Videos/" + videoname
@@ -184,7 +184,7 @@ for vidf in vfiles:
                     tshands.append(samplehands) #append to the timeseries object
                     tsface.append(sampleface)   #append to the timeseries object
                 #show the video as we process (you can comment this out, if you want to run this process in the background)
-                cv2.imshow("resizedimage", original_image)
+                # cv2.imshow("resizedimage", original_image)
                 out.write(original_image) #save the frame to the new masked video
                 time = time+(1000/samplerate)#update the time variable  for the next frame
             if cv2.waitKey(1) == 27: #allow the use of ESCAPE to break the loop
