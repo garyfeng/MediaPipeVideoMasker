@@ -7,12 +7,11 @@ RUN pip3 install -r requirements.txt
 RUN apt-get update -y && apt-get install -y libgl-dev
 
 # Prep for the app
-COPY Masked-PiperPY.py /
-COPY facial_landmarks.py /
+COPY mpvideomasker.py /
 COPY LICENSE /
 ADD Input_Videos /Input_Videos
 ADD Output_MaskedVideos /Output_MaskedVideos
 ADD Output_TimeSeries /Output_TimeSeries
 
 # run the default command
-CMD [ "python", "Masked-PiperPY.py"]
+CMD [ "python", "mpvideomasker.py"]
